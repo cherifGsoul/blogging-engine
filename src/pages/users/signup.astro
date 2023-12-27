@@ -1,0 +1,42 @@
+---
+import Layout from "../../layouts/main.astro"
+import { POST } from "../api/users/index.js";
+
+
+await POST(Astro)
+
+---
+
+<Layout>
+  <form method="post">
+    <div class="field">
+      <label for="firstName" class="label">First name</label>
+      <div class="control">
+        <input class="input" type="text" name="firstName" id="firstName">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="lastName" class="label">Last name</label>
+      <div class="control">
+        <input class="input" type="text" name="lastName" id="lastName">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="emailAddress" class="label">Email address</label>
+      <div class="control">
+        <input class="input" type="email" name="emailAddress" id="emailAddress">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="password" class="label">Password</label>
+      <div class="control">
+        <input class="input" type="password" name="password" id="password">
+      </div>
+    </div>
+
+    <button type="submit" class="button is-primary">Sign up</button>
+  </form>
+</Layout>

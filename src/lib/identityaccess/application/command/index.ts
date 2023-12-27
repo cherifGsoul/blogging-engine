@@ -1,0 +1,1 @@
+export * as SignupCommand from "./signup.command"
