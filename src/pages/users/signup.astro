@@ -2,38 +2,106 @@
 import Layout from "../../layouts/main.astro"
 import { POST } from "../api/users/index.js";
 
+let errors: any = {}
+let entries: any = {}
 
-await POST(Astro)
+if (Astro.request.method === "POST") {
+  const response = await POST(Astro);
+  if (response.status === 201) {
+    return Astro.redirect("/users", 302)
+  }
+  if (response.status === 422) {
+    const j = await response.json()
+    errors = j.errors;
+    entries = j.entries;
+    console.log(errors)
+  }
+}
+  
 
 ---
 
 <Layout>
+  {
+    errors.formErrors?.length > 0 && errors.formErrors.map((error: any) => {
+      return <p class="help is-danger">{error}</p>;
+    })
+  }
   <form method="post">
     <div class="field">
       <label for="firstName" class="label">First name</label>
       <div class="control">
-        <input class="input" type="text" name="firstName" id="firstName">
+        <input class="input" type="text" name="firstName" id="firstName"  value={(entries?.firstName && entries.firstName) || ""}>
+        {
+          errors.fieldErrors?.firstName?.map((error: any) => {
+            return <p class="help is-danger">{error}</p>;
+          })
+        }
       </div>
     </div>
 
     <div class="field">
       <label for="lastName" class="label">Last name</label>
       <div class="control">
-        <input class="input" type="text" name="lastName" id="lastName">
+        <input class="input" type="text" name="lastName" id="lastName" value={(entries?.lastName && entries.lastName) || ""}>
+        {
+          errors.fieldErrors?.lastName?.map((error: any) => {
+            return <p class="help is-danger">{error}</p>;
+          })
+        }
       </div>
     </div>
 
     <div class="field">
       <label for="emailAddress" class="label">Email address</label>
       <div class="control">
-        <input class="input" type="email" name="emailAddress" id="emailAddress">
+        <input
+          class="input"
+          type="email"
+          name="emailAddress"
+          id="emailAddress"
+          value={(entries?.emailAddress && entries.emailAddress) || ""}>
+        {
+          errors.fieldErrors?.emailAddress?.map((error: any) => {
+            return <p class="help is-danger">{error}</p>;
+          })
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="emailAddressConfirmation" class="label">Confirm email address</label>
+      <div class="control">
+        <input
+          class="input"
+          type="email"
+          name="emailAddressConfirmation"
+          id="emailAddressConfirmation"
+          value={(entries?.emailAddressConfirmation && entries.emailAddressConfirmation) || ""}
+        >
+        {
+          errors.fieldErrors?.emailAddress?.map((error: any) => {
+            return <p class="help is-danger">{error}</p>;
+          })
+        }
       </div>
     </div>
 
     <div class="field">
       <label for="password" class="label">Password</label>
       <div class="control">
-        <input class="input" type="password" name="password" id="password">
+        <input
+          class="input"
+          type="password"
+          name="password"
+          id="password"
+          value={(entries?.password && entries.password) || ""}
+        >
+        {
+          errors.fieldErrors?.password?.map((error: any) => {
+            return <p class="help is-danger">{error}</p>;
+          })
+        }
       </div>
     </div>
 

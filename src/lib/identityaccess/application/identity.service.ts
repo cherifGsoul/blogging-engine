@@ -10,8 +10,6 @@ class Service {
     }
 }
 
-export interface IdentityService extends Service {
-
-}
+export type IdentityService = Service;
 
 export const identityService = (): IdentityService => new Service()

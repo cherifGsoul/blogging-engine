@@ -1,3 +1,5 @@
+import { EmailAddress } from "../../model/index.js"
+
 class Command {
     #emailAddress: string
     #password: string
@@ -12,7 +14,7 @@ class Command {
     }
 
     get emailAddress() {
-        return this.#emailAddress
+        return EmailAddress.fromString(this.#emailAddress)
     }
 
     get password() {
@@ -28,7 +30,7 @@ class Command {
     }
 }
 
-export interface SignupCommand extends Command { }
+export type SignupCommand = Command;
 
 // Predicate as a type guard
 const isCommand = (entries: unknown): entries is Command => (
